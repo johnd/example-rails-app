@@ -15,7 +15,7 @@ role :db,  %w{app@localhost}
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-server 'localhost.com', user: 'app', roles: %w{web app}, my_property: :my_value
+server 'localhost', user: 'app', roles: %w{web app}, my_property: :my_value
 
 set :ssh_options, {
   port: "2222"
