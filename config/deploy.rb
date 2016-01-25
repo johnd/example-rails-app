@@ -18,26 +18,33 @@ set :deploy_to, '/home/app/example-rails-app'
 
 namespace :deploy do
 
-  desc 'Restart application'
-  task :restart do
+  desc 'Zero-downtime restart application'
+  task :reload do
     on roles(:app), in: :sequence, wait: 5 do
-      run "kill -USR2 $(cat #{shared_path}/pids/unicorn.pid)"
+      run "kill -HUP $(cat #{shared_path}/pids/unicorn.pid)"
     end
   end
 
   desc "Start the Unicorn process when it isn't already running."
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      run "cd #{current_path} && #{current_path}/bin/unicorn -Dc #{shared_path}/config/unicorn.rb -E #{rails_env}"
+      execute "cd #{current_path} && bundle exec unicorn -Dc #{current_path}/config/unicorn.rb -E production"
     end
   end
 
-    desc "Stop the application by killing the Unicorn process"
-    task :stop do
-      on roles(:app) in: :sequence, weit: 5 do
-    run "kill $(cat #{shared_path}/pids/unicorn.pid)"
+  desc "Stop the application by killing the Unicorn process"
+  task :stop do
+    on roles(:app), in: :sequence, wait: 5 do
+      if test("[ -f #{shared_path}/pids/unicorn.pid ]")
+        run "kill $(cat #{shared_path}/pids/unicorn.pid)"
+      end
     end
   end
+
+  desc "Restart application"
+  task :restart
+  before :restart, :stop
+  before :restart, :start
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
