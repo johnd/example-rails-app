@@ -8,6 +8,6 @@
 
 listen 2007 # by default Unicorn listens on port 8080
 worker_processes 1 # this should be >= nr_cpus
-pid "/home/app/example_rails_app/shared/pids/unicorn.pid"
-stderr_path "/home/app/example_rails_app/shared/log/unicorn.log"
-stdout_path "/home/app/example_rails_app/shared/log/unicorn.log"
+pid "/home/app/example-rails-app/shared/pids/unicorn.pid"
+stderr_path "/home/app/example-rails-app/shared/log/unicorn.log"
+stdout_path "/home/app/example-rails-app/shared/log/unicorn.log"
