@@ -1,5 +1,5 @@
 set :application, 'example-rails-app'
-set :repo_url, 'git@github.com:johnd/example-rails-app.git'
+set :repo_url, 'https://github.com/johnd/example-rails-app.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
