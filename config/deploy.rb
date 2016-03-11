@@ -21,7 +21,7 @@ namespace :deploy do
   desc 'Zero-downtime restart application'
   task :reload do
     on roles(:app), in: :sequence, wait: 5 do
-      run "kill -HUP $(cat #{shared_path}/pids/unicorn.pid)"
+      execute "kill -HUP $(cat #{shared_path}/pids/unicorn.pid)"
     end
   end
 
@@ -36,7 +36,7 @@ namespace :deploy do
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
       if test("[ -f #{shared_path}/pids/unicorn.pid ]")
-        run "kill $(cat #{shared_path}/pids/unicorn.pid)"
+        execute "kill $(cat #{shared_path}/pids/unicorn.pid)"
       end
     end
   end
